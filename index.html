@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎉 Birthday Countdown - 3 Hours To Go! 🎂</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #FF6B6B, #FFD93D, #6BCB77, #4D96FF);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: #333;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Floating Balloons */
+  .balloon-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .balloon {
+    position: absolute;
+    bottom: -150px;
+    font-size: 3rem;
+    animation: floatUp linear infinite;
+    opacity: 0.85;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.85; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Confetti */
+  .confetti-piece {
+    position: fixed;
+    top: -20px;
+    width: 10px;
+    height: 10px;
+    opacity: 0;
+    z-index: 1000;
+    animation: confettiFall linear forwards;
+  }
+  @keyframes confettiFall {
+    0% { opacity: 1; transform: translateY(0) rotateZ(0deg); }
+    100% { opacity: 0; transform: translateY(100vh) rotateZ(720deg); }
+  }
+
+  /* Main Container */
+  .main-container {
+    position: relative;
+    z-index: 10;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 40px 20px;
+    animation: bounceIn 1s ease;
+  }
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+  }
+  .header p {
+    font-size: 1.3rem;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  }
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* Countdown Section */
+  .countdown-section {
+    text-align: center;
+    background: rgba(255,255,255,0.92);
+    border-radius: 25px;
+    padding: 40px 30px;
+    margin: 30px 0;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    animation: slideUp 0.8s ease 0.3s both;
+  }
+  .countdown-section h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    color: #FF6B6B;
+    margin-bottom: 5px;
+  }
+  .countdown-subtitle {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 25px;
+    font-style: italic;
+  }
+  .timer-display {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .timer-box {
+    background: linear-gradient(135deg, #FF6B6B, #ee5a24);
+    color: #fff;
+    border-radius: 18px;
+    padding: 20px 25px;
+    min-width: 100px;
+    box-shadow: 0 8px 20px rgba(238,90,36,0.3);
+    transition: transform 0.3s;
+  }
+  .timer-box:nth-child(2) { background: linear-gradient(135deg, #FFD93D, #f0932b); }
+  .timer-box:nth-child(3) { background: linear-gradient(135deg, #6BCB77, #27ae60); }
+  .timer-box:hover { transform: scale(1.1); }
+  .timer-box .time-value {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    display: block;
+  }
+  .timer-box .time-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.9;
+  }
+  .urgency-msg {
+    margin-top: 25px;
+    font-size: 1.1rem;
+    color: #FF6B6B;
+    font-weight: 700;
+    animation: pulse 1.5s infinite;
+    transition: opacity 0.3s;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* Witty Messages */
+  .messages-section {
+    margin: 30px 0;
+    animation: slideUp 0.8s ease 0.6s both;
+  }
+  .messages-section h2 {
+    font-family: 'Fredoka One', cursive;
+    text-align: center;
+    font-size: 1.8rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+    margin-bottom: 25px;
+  }
+  .message-card {
+    background: rgba(255,255,255,0.93);
+    border-radius: 20px;
+    padding: 25px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .message-card:hover { transform: translateY(-5px) rotate(-0.5deg); }
+  .message-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 6px;
+    height: 100%;
+  }
+  .message-card:nth-child(2)::before { background: #FF6B6B; }
+  .message-card:nth-child(3)::before { background: #FFD93D; }
+  .message-card:nth-child(4)::before { background: #6BCB77; }
+  .message-card:nth-child(5)::before { background: #4D96FF; }
+  .message-card:nth-child(6)::before { background: #A66CFF; }
+  .message-card:nth-child(7)::before { background: #FF8C00; }
+  .message-card:nth-child(8)::before { background: #e84393; }
+  .message-card:nth-child(9)::before { background: #00cec9; }
+  .message-card .emoji { font-size: 2rem; margin-bottom: 8px; display: block; }
+  .message-card .msg-text { font-size: 1.05rem; color: #444; line-height: 1.6; }
+  .message-card .msg-text strong { color: #FF6B6B; }
+
+  /* Photo Gallery */
+  .gallery-section {
+    margin: 40px 0;
+    animation: slideUp 0.8s ease 0.9s both;
+  }
+  .gallery-section h2 {
+    font-family: 'Fredoka One', cursive;
+    text-align: center;
+    font-size: 1.8rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+    margin-bottom: 25px;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .photo-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    transition: transform 0.3s;
+    position: relative;
+  }
+  .photo-card:hover { transform: rotate(-2deg) scale(1.03); }
+  .photo-placeholder {
+    width: 100%;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #999;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .photo-placeholder .cam-icon { font-size: 3rem; }
+  .photo-card:nth-child(1) .photo-placeholder { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+  .photo-card:nth-child(2) .photo-placeholder { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+  .photo-card:nth-child(3) .photo-placeholder { background: linear-gradient(135deg, #d4fc79, #96e6a1); }
+  .photo-card:nth-child(4) .photo-placeholder { background: linear-gradient(135deg, #f093fb, #f5576c); }
+  .photo-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: none;
+  }
+  .photo-caption {
+    padding: 15px;
+    text-align: center;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+  }
+
+  /* Birthday Explosion */
+  .birthday-explosion {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  .birthday-explosion.active { display: flex; }
+  .birthday-explosion h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 4rem;
+    color: #FFD93D;
+    text-shadow: 0 0 30px rgba(255,217,61,0.6);
+    animation: bounceIn 1s ease;
+    margin-bottom: 20px;
+  }
+  .birthday-explosion p {
+    color: #fff;
+    font-size: 1.4rem;
+    animation: fadeInUp 1s ease 0.5s both;
+  }
+  .birthday-explosion .close-btn {
+    margin-top: 30px;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-family: 'Fredoka One', cursive;
+    background: linear-gradient(135deg, #FF6B6B, #ee5a24);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    animation: fadeInUp 1s ease 1s both;
+    transition: transform 0.3s;
+  }
+  .birthday-explosion .close-btn:hover { transform: scale(1.1); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 30px;
+    color: #fff;
+    font-size: 1rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    animation: slideUp 0.8s ease 1.2s both;
+  }
+  .footer .heart { color: #FF6B6B; font-size: 1.5rem; animation: heartbeat 1s infinite; display: inline-block; }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes fadeInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header h1 { font-size: 2rem; }
+    .timer-box { min-width: 80px; padding: 15px 18px; }
+    .timer-box .time-value { font-size: 2.2rem; }
+    .birthday-explosion h1 { font-size: 2.5rem; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating Balloons -->
+<div class="balloon-container" id="balloonContainer"></div>
+
+<!-- Main Content -->
+<div class="main-container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>🎂 T-Minus 3 Hours! 🎉</h1>
+    <p>The most awaited countdown since New Year's Eve !! 🥳</p>
+  </div>
+
+  <!-- Countdown Timer -->
+  <div class="countdown-section">
+    <h2>⏰ The Wait Is Almost Over Pandu ji!</h2>
+    <p class="countdown-subtitle">"Every second feels like an eternity... and I'm NOT being dramatic."</p>
+    <div class="timer-display">
+      <div class="timer-box">
+        <span class="time-value" id="hours">03</span>
+        <span class="time-label">Hours</span>
+      </div>
+      <div class="timer-box">
+        <span class="time-value" id="minutes">00</span>
+        <span class="time-label">Minutes</span>
+      </div>
+      <div class="timer-box">
+        <span class="time-value" id="seconds">00</span>
+        <span class="time-label">Seconds</span>
+      </div>
+    </div>
+    <p class="urgency-msg" id="urgencyMsg">🚨 Can't wait to end these 3 hours! This is TORTURE! 🚨</p>
+  </div>
+
+  <!-- Witty Messages -->
+  <div class="messages-section">
+    <h2>💌 Messages From Your Biggest Fan</h2>
+
+    <div class="message-card">
+      <span class="emoji">🎁</span>
+      <p class="msg-text">I wanted to give you something <strong>amazing, beautiful, and perfect</strong> for your birthday... so I thought of wrapping myself up, be your Bday gift love. 😏</p>
+    </div>
+
+    <div class="message-card">
+      <span class="emoji">🕐</span>
+      <p class="msg-text">These 3 hours feel longer than every Monday morning combined. I'm literally watching the clock like it owes me money. <strong>HURRY UP, TIME!</strong> ⏰💸</p>
+    </div>
+
+    <div class="message-card">
+      <span class="emoji">🎂</span>
+      <p class="msg-text">They say age is just a number... so I'm not going to mention yours. But if I DID, I'd say you make that number look <strong>absolutely incredible.</strong> 😉✨</p>
+    </div>
+
+    <div class="message-card">
+      <span class="emoji">🧁</span>
+      <p class="msg-text"> You are in all my prayers pandu ji, no matter what we are going through <strong> Don't even pray for myself that much.</strong> That's how special you are! 🍿❤️</p>
+    </div>
+
+    <div class="message-card">
+      <span class="emoji">🥂</span>
+      <p class="msg-text">Happy almost-birthday! I've been practicing my "surprised face" for when you open your gift, but it still on the way. <strong>So, stay tuned for Oscar-worthy performance.</strong> 🎭🏆</p>
+    </div>
+
+    <div class="message-card">
+      <span class="emoji">💃</span>
+      <p class="msg-text">Fun fact: Scientists say anticipation makes celebrations better. So technically, <strong>these agonizing 3 hours are my gift to you.</strong> You're welcome. 🎀😂</p>
+    </div>
+
+    <div class="message-card">
+      <span class="emoji">🌟</span>
+      <p class="msg-text">If I had a star for every time you made me smile, I'd have the <strong>entire galaxy.</strong> That's how much happy you make love ❤🐼 </p>
+    </div>
+
+    <div class="message-card">
+      <span class="emoji">🎈</span>
+      <p class="msg-text">Counting down to celebrate the day the world got a whole lot <strong>funnier, prettier, and bossier.</strong> Yes, bossier. I said what I said. 👑😘</p>
+    </div>
+  </div>
+
+  <!-- Photo Gallery -->
+  <div class="gallery-section">
+    <h2>📸 Our Favourite Memories</h2>
+    <p style="text-align:center; color:#fff; margin-bottom:20px; text-shadow:1px 1px 3px rgba(0,0,0,0.15);">
+      <em>(We look so cute together baby!)</em>
+    </p>
+    <div class="gallery-grid">
+      <div class="photo-card">
+        <!-- TO ADD PHOTO: Replace src="" with your image path e.g. src="photo1.jpg" and add style="display:block" to img, style="display:none" to placeholder -->
+        <img src="1.jpeg" alt="Photo 1">
+        <div class="photo-placeholder">
+          <span class="cam-icon">📷</span>
+          <span>Photo 1</span>
+        </div>
+        <div class="photo-caption">The one where we couldn't stop laughing 😂</div>
+      </div>
+      <div class="photo-card">
+        <img src="2.jpeg" alt="Photo 2">
+        <div class="photo-placeholder">
+          <span class="cam-icon">📷</span>
+          <span>Photo 2</span>
+        </div>
+        <div class="photo-caption">That golden hour magic ✨</div>
+      </div>
+      <div class="photo-card">
+        <img src="3.jpeg" alt="Photo 3">
+        <div class="photo-placeholder">
+          <span class="cam-icon">📷</span>
+          <span>Photo 3</span>
+        </div>
+        <div class="photo-caption">Proof that we're adorable 💕</div>
+      </div>
+      <div class="photo-card">
+        <img src="4 .jpeg" alt="Photo 4">
+        <div class="photo-placeholder">
+          <span class="cam-icon">📷</span>
+          <span>Photo 4</span>
+        </div>
+        <div class="photo-caption">Our most chaotic adventure 🤪</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Made with a <span class="heart">❤️</span> full of impatience & love</p>
+    <p style="margin-top:8px; font-size:0.9rem;">See you in a few hours, birthday queen! 👑🎉</p>
+  </div>
+
+</div>
+
+<!-- Birthday Explosion Overlay -->
+<div class="birthday-explosion" id="birthdayExplosion">
+  <h1>🎉🎂 HAPPY BIRTHDAY!! 🎂🎉</h1>
+  <p>THE WAIT IS FINALLY OVER! 🥳🎊💖<br>Time to celebrate the most amazing person ever!</p>
+  <button class="close-btn" onclick="document.getElementById('birthdayExplosion').classList.remove('active')">LET'S PARTY! 🎈</button>
+</div>
+
+<script>
+  // COUNTDOWN TIMER (3 hours from page load)
+  const countdownDuration = 3 * 60 * 60 * 1000;
+  const endTime = Date.now() + countdownDuration;
+
+  const urgencyMessages = [
+    "🚨 Can't wait to end these 3 hours! This is TORTURE! 🚨",
+    "⏳ Still waiting... Is time even REAL?! 😫",
+    "🔥 The suspense is KILLING me! 🔥",
+    "😤 I swear that clock is moving BACKWARDS!",
+    "🎂 The cake isn't the only thing getting baked by this heat of ANTICIPATION!",
+    "💀 Dramatically staring at the clock like a soap opera character...",
+    "🏃‍♂️ Me running towards the celebration like my life depends on it!",
+    "😩 Ughhh, can someone fast-forward time PLEASE?!"
+  ];
+  let msgIndex = 0;
+
+  function updateTimer() {
+    const remaining = endTime - Date.now();
+    if (remaining <= 0) {
+      document.getElementById('hours').textContent = '00';
+      document.getElementById('minutes').textContent = '00';
+      document.getElementById('seconds').textContent = '00';
+      document.getElementById('urgencyMsg').textContent = '🎉 TIMES UP! ITS PARTY TIME! 🎉';
+      triggerExplosion();
+      return;
+    }
+    const h = Math.floor(remaining / 3600000);
+    const m = Math.floor((remaining % 3600000) / 60000);
+    const s = Math.floor((remaining % 60000) / 1000);
+    document.getElementById('hours').textContent = String(h).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+    requestAnimationFrame(updateTimer);
+  }
+  updateTimer();
+
+  // Rotate urgency messages every 8 seconds
+  setInterval(function() {
+    msgIndex = (msgIndex + 1) % urgencyMessages.length;
+    var el = document.getElementById('urgencyMsg');
+    el.style.opacity = 0;
+    setTimeout(function() {
+      el.textContent = urgencyMessages[msgIndex];
+      el.style.opacity = 1;
+    }, 300);
+  }, 8000);
+
+  // FLOATING BALLOONS
+  var balloonEmojis = ['🎈','🎈','🎈','🎉','🎊','⭐','🌟','💖','🎂','🧁','🥳','🎁'];
+  function createBalloon() {
+    var balloon = document.createElement('div');
+    balloon.classList.add('balloon');
+    balloon.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+    balloon.style.left = Math.random() * 100 + '%';
+    balloon.style.animationDuration = (6 + Math.random() * 8) + 's';
+    balloon.style.fontSize = (1.5 + Math.random() * 2.5) + 'rem';
+    document.getElementById('balloonContainer').appendChild(balloon);
+    setTimeout(function() { balloon.remove(); }, 15000);
+  }
+  setInterval(createBalloon, 800);
+  for (var i = 0; i < 10; i++) { (function(j){ setTimeout(createBalloon, j * 150); })(i); }
+
+  // CONFETTI
+  function launchConfetti(count) {
+    count = count || 80;
+    var colors = ['#FF6B6B','#FFD93D','#6BCB77','#4D96FF','#A66CFF','#FF8C00','#e84393','#00cec9','#fd79a8'];
+    for (var i = 0; i < count; i++) {
+      var piece = document.createElement('div');
+      piece.classList.add('confetti-piece');
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.width = (6 + Math.random() * 8) + 'px';
+      piece.style.height = (6 + Math.random() * 8) + 'px';
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.animationDuration = (2 + Math.random() * 3) + 's';
+      piece.style.animationDelay = (Math.random() * 2) + 's';
+      document.body.appendChild(piece);
+      (function(p){ setTimeout(function(){ p.remove(); }, 6000); })(piece);
+    }
+  }
+  launchConfetti(100);
+
+  // BIRTHDAY EXPLOSION
+  function triggerExplosion() {
+    document.getElementById('birthdayExplosion').classList.add('active');
+    launchConfetti(200);
+    var rounds = 0;
+    var interval = setInterval(function() {
+      launchConfetti(100);
+      rounds++;
+      if (rounds > 5) clearInterval(interval);
+    }, 2000);
+  }
+</script>
+
+</body>
+</html>
