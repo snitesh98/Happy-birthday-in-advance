@@ -225,7 +225,7 @@
   .photo-placeholder {
     width: 100%;
     height: 220px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     font-size: 1rem;
@@ -242,7 +242,7 @@
     width: 100%;
     height: 220px;
     object-fit: cover;
-    display: none;
+    display: img;
   }
   .photo-caption {
     padding: 15px;
@@ -361,7 +361,7 @@
         <span class="time-label">Seconds</span>
       </div>
     </div>
-    <p class="urgency-msg" id="urgencyMsg">🚨 Can't wait to end these 3 hours! This is TORTURE! 🚨</p>
+    <p class="urgency-msg" id="urgencyMsg">🚨 Can't wait to end these 2.5 hours! This is TORTURE! 🚨</p>
   </div>
 
   <!-- Witty Messages -->
@@ -375,7 +375,7 @@
 
     <div class="message-card">
       <span class="emoji">🕐</span>
-      <p class="msg-text">These 3 hours feel longer than every Monday morning combined. I'm literally watching the clock like it owes me money. <strong>HURRY UP, TIME!</strong> ⏰💸</p>
+      <p class="msg-text">These 2.5 hours feel longer than every Monday morning combined. I'm literally watching the clock like it owes me money. <strong>HURRY UP, TIME!</strong> ⏰💸</p>
     </div>
 
     <div class="message-card">
@@ -442,7 +442,7 @@
         <div class="photo-caption">Proof that we're adorable 💕</div>
       </div>
       <div class="photo-card">
-        <img src="4 .jpeg" alt="Photo 4">
+        <img src="4.jpeg" alt="Photo 4">
         <div class="photo-placeholder">
           <span class="cam-icon">📷</span>
           <span>Photo 4</span>
@@ -469,7 +469,7 @@
 
 <script>
   // COUNTDOWN TIMER (3 hours from page load)
-  const countdownDuration = 3 * 60 * 60 * 1000;
+  const countdownDuration = 2.5 * 60 * 60 * 1000;
   const endTime = Date.now() + countdownDuration;
 
   const urgencyMessages = [
